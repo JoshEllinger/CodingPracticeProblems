@@ -26,7 +26,7 @@ var s_p_y = {
 
 // Create prices object.
 function Prices(stock_prices_yesterday){
-    this.stoock_prices_yesterday = stock_prices_yesterday;
+    this.stock_prices_yesterday = stock_prices_yesterday;
 };
 
 // Create function to get yesterday's best profit.
@@ -37,14 +37,14 @@ Prices.prototype.getYesterdaysBestProfit = function() {
         endMinute: null,
         difference: null
     };
-    
+
     var highestPrice = {
         minute: null,
         price: null
     };
     // Loop counter, since index is unrelable.
     var loop = 0;
-    
+
     var reversedPriceKeys = Object.keys(this.stock_prices_yesterday).reverse();
     reversedPriceKeys.forEach(function(key, index){
         // Initialize highest price first loop.
@@ -71,7 +71,7 @@ Prices.prototype.getYesterdaysBestProfit = function() {
             highestPrice.minute = key;
             highestPrice.price = this.stock_prices_yesterday[key];
         }
-        
+
         // Iterate loop counter.
         loop++;
     });
