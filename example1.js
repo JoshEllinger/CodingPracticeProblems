@@ -47,8 +47,10 @@ Prices.prototype.getYesterdaysBestProfit = function() {
 
     // Loop through each minute in reverse O(n).
     var reversedPriceKeys = Object.keys(this.stock_prices_yesterday).reverse();
-    console.log({typeofPriceKeys: typeOf reservedPriceKeys});
+    console.log({typeofPriceKeys: typeof reservedPriceKeys});
     reversedPriceKeys.forEach(function(priceKey) {
+      // Cast as number.
+      priceKey = Number(priceKey);
       // Initialize highest price first loop.
       if (loop === 0){
         highestPrice.minute = priceKey;
@@ -76,11 +78,9 @@ Prices.prototype.getYesterdaysBestProfit = function() {
 
       // Iterate loop counter.
       loop++;
-    }
+    });
     return largestGain;
 }
-
-Object.prototype. =
 
 // Calculate price gain.
 Prices.prototype.calculatePriceGain = function(oldPrice, newPrice) {
