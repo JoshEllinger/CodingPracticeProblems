@@ -21,7 +21,8 @@ var s_p_y = {
     5: 499,
     6: 509,
     7: 500,
-    60: 500
+    60: 500,
+    61: 400
 };
 
 // Create prices object.
@@ -31,7 +32,6 @@ function Prices(stock_prices_yesterday){
 
 // Create function to get yesterday's best profit.
 Prices.prototype.getYesterdaysBestProfit = function() {
-    var sortedPrices = {};
     var largestGain = {
         beginMinute: null,
         endMinute: null,
@@ -45,37 +45,42 @@ Prices.prototype.getYesterdaysBestProfit = function() {
     // Loop counter, since index is unrelable.
     var loop = 0;
 
+    // Loop through each minute in reverse O(n).
     var reversedPriceKeys = Object.keys(this.stock_prices_yesterday).reverse();
-    reversedPriceKeys.forEach(function(key, index){
-        // Initialize highest price first loop.
-        if (loop === 0){
-            highestPrice.minute = key;
-            highestPrice.price = this.stock_prices_yesterday[key];
-        }
-        // Initialize largest gain on second loop or...
-        else if (loop === 1) {
-            largestGain.difference = this.calculatePriceGain(this.stock_prices_yesterday[key], highestPrice.price);
-            largestGain.beginMinute = this.stock_prices_yesterday[key];
-            largestGain.endMinute = highestPrice.minute;
+    console.log({typeofPriceKeys: typeOf reservedPriceKeys});
+    reversedPriceKeys.forEach(function(priceKey) {
+      // Initialize highest price first loop.
+      if (loop === 0){
+        highestPrice.minute = priceKey;
+        highestPrice.price = this.stock_prices_yesterday[priceKey];
+      }
+      // Initialize largest gain on second loop or...
+      else if (loop === 1) {
+        largestGain.difference = this.calculatePriceGain(this.stock_prices_yesterday[priceKey], highestPrice.price);
+        largestGain.beginMinute = priceKey;
+        largestGain.endMinute = highestPrice.minute;
         // If the loop has propogated the base info do not initialize data.
-        } else {
-            var priceGain = this.calculatePriceGain(this.stock_prices_yesterday[key], highestPrice.price);
-            if (priceGain > largestGain.difference) {
-                largestGain.difference = priceGain;
-                largestGain.beginMinute = this.stock_prices_yesterday[key];
-                largestGain.endMinute = highestPrice.minute;
-            }
+      } else {
+        var priceGain = this.calculatePriceGain(this.stock_prices_yesterday[priceKey], highestPrice.price);
+        if (priceGain > largestGain.difference) {
+          largestGain.difference = priceGain;
+          largestGain.beginMinute = priceKey;
+          largestGain.endMinute = highestPrice.minute;
         }
-        // Determine if new record high is reached.
-        if(highestPrice.price < this.stock_prices_yesterday[key]) {
-            highestPrice.minute = key;
-            highestPrice.price = this.stock_prices_yesterday[key];
-        }
+      }
+      // Determine if new record high is reached.
+      if (highestPrice.price < this.stock_prices_yesterday[priceKey]) {
+        highestPrice.minute = priceKey;
+        highestPrice.price = this.stock_prices_yesterday[priceKey];
+      }
 
-        // Iterate loop counter.
-        loop++;
-    });
+      // Iterate loop counter.
+      loop++;
+    }
+    return largestGain;
 }
+
+Object.prototype. =
 
 // Calculate price gain.
 Prices.prototype.calculatePriceGain = function(oldPrice, newPrice) {
@@ -83,4 +88,4 @@ Prices.prototype.calculatePriceGain = function(oldPrice, newPrice) {
 }
 
 var prices = new Prices(s_p_y);
-prices.getYesterdaysBestProfit();
+console.log(prices.getYesterdaysBestProfit());
