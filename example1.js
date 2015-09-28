@@ -38,7 +38,11 @@ StockPrices.prototype.getBestProfit = function() {
 
     // Loop through each minute in reverse O(n).
     var reversedPriceKeys = Object.keys(this.stock_prices).reverse();
-    console.log({typeofPriceKeys: typeof reversedPriceKeys, stockPrices: this.stock_prices});
+
+    // Error checking for not enough stock prices.
+    if (reversedPriceKeys.length <2){
+      throw "Not enough stock prices in sample";
+    }
 
     reversedPriceKeys.forEach(function(priceKeyString) {
       // Cast as number.
@@ -51,12 +55,12 @@ StockPrices.prototype.getBestProfit = function() {
       }
       // Initialize largest gain on second loop or...
       else if (loop === 1) {
-        largestGain.difference = that.calculatePriceGain(that.retrievePriceByMinute(priceKeyNumber), highestPrice.price);
+        largestGain.difference = that.calculatePriceGain(highestPrice.price, that.retrievePriceByMinute(priceKeyNumber));
         largestGain.beginMinute = priceKeyNumber;
         largestGain.endMinute = highestPrice.minute;
         // If the loop has propogated the base info do not initialize data.
       } else {
-        var priceGain = that.calculatePriceGain(that.retrievePriceByMinute(priceKeyNumber), highestPrice.price);
+        var priceGain = that.calculatePriceGain(highestPrice.price, that.retrievePriceByMinute(priceKeyNumber));
         if (priceGain > largestGain.difference) {
           largestGain.difference = priceGain;
           largestGain.beginMinute = priceKeyNumber;
@@ -71,7 +75,6 @@ StockPrices.prototype.getBestProfit = function() {
 
       // Iterate loop counter.
       loop++;
-      console.log(loop);
     });
     return largestGain;
 }
