@@ -36,7 +36,7 @@ StockPrices.prototype.getBestProfit = function() {
     // this is not always accurate in child functions.
     var that = this;
 
-    // Reverse the object.
+    // Reverse the object keys get array of obj keys.
     var reversedPriceKeys = Object.keys(this.stock_prices).reverse();
 
     // Error checking for not enough stock prices.
@@ -45,33 +45,33 @@ StockPrices.prototype.getBestProfit = function() {
     }
 
     // Loop through each minute in reverse O(n).
-    reversedPriceKeys.forEach(function(priceKeyString) {
+    reversedPriceKeys.forEach(function(stockPriceMinute) {
       // Cast as number.
-      priceKeyNumber = Number(priceKeyString);
+      stockPriceMinute = Number(stockPriceMinute);
 
       // Initialize highest price first loop.
       if (loop === 0){
-        highestPrice.minute = priceKeyNumber;
-        highestPrice.price = that.retrievePriceByMinute(priceKeyNumber);
+        highestPrice.minute = stockPriceMinute;
+        highestPrice.price = that.retrievePriceByMinute(stockPriceMinute);
       }
       // Initialize largest gain on second loop or...
       else if (loop === 1) {
-        largestGain.difference = that.calculatePriceGain(highestPrice.price, that.retrievePriceByMinute(priceKeyNumber));
-        largestGain.beginMinute = priceKeyNumber;
+        largestGain.difference = that.calculatePriceGain(highestPrice.price, that.retrievePriceByMinute(stockPriceMinute));
+        largestGain.beginMinute = stockPriceMinute;
         largestGain.endMinute = highestPrice.minute;
         // If the loop has propogated the base info do not initialize data.
       } else {
-        var priceGain = that.calculatePriceGain(highestPrice.price, that.retrievePriceByMinute(priceKeyNumber));
+        var priceGain = that.calculatePriceGain(highestPrice.price, that.retrievePriceByMinute(stockPriceMinute));
         if (priceGain > largestGain.difference) {
           largestGain.difference = priceGain;
-          largestGain.beginMinute = priceKeyNumber;
+          largestGain.beginMinute = stockPriceMinute;
           largestGain.endMinute = highestPrice.minute;
         }
       }
       // Determine if new record high is reached.
-      if (highestPrice.price < that.retrievePriceByMinute(priceKeyNumber)) {
-        highestPrice.minute = priceKeyNumber;
-        highestPrice.price = that.retrievePriceByMinute(priceKeyNumber);
+      if (highestPrice.price < that.retrievePriceByMinute(stockPriceMinute)) {
+        highestPrice.minute = stockPriceMinute;
+        highestPrice.price = that.retrievePriceByMinute(stockPriceMinute);
       }
 
       // Iterate loop counter.
@@ -91,6 +91,7 @@ StockPrices.prototype.calculatePriceGain = function(oldPrice, newPrice) {
     return oldPrice - newPrice;
 }
 
+// Sample data.
 var stock_prices_yesterday = {
     0: 500,
     1: 501,
