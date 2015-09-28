@@ -20,7 +20,7 @@ function get_products_of_all_ints_except_at_index(ints) {
     return [];
   }
   // Iterate over each int.
-  ints.forEach(function(thisKey){
+  ints.forEach(function(thisKey, index){
     // Clone ints so nothing is deleted.
     let myints = ints.slice(0, ints.length);
     // Remove the single item from an array.
