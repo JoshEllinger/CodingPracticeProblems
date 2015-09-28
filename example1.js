@@ -36,7 +36,7 @@ StockPrices.prototype.getBestProfit = function() {
     // this is not always accurate in child functions.
     var that = this;
 
-    // Loop through each minute in reverse O(n).
+    // Reverse the object.
     var reversedPriceKeys = Object.keys(this.stock_prices).reverse();
 
     // Error checking for not enough stock prices.
@@ -44,6 +44,7 @@ StockPrices.prototype.getBestProfit = function() {
       throw "Not enough stock prices in sample";
     }
 
+    // Loop through each minute in reverse O(n).
     reversedPriceKeys.forEach(function(priceKeyString) {
       // Cast as number.
       priceKeyNumber = Number(priceKeyString);
@@ -104,4 +105,8 @@ var stock_prices_yesterday = {
 };
 
 var prices = new StockPrices(stock_prices_yesterday);
-console.log(prices.getBestProfit());
+try {
+  console.log(prices.getBestProfit());
+} catch (error) {
+  console.log(error);
+}
